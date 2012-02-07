@@ -1,0 +1,13 @@
+profanity:
+- shit
+- fuck
+- piss
+- cunt
+
+profanityMessage: "Oi %N! Mind your language!"
+
+triggers:
+- eleven
+- '11'
+
+triggerPhrase: "That's ridiculous, it's not even funny."
