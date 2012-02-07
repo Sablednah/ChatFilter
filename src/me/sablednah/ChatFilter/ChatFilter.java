@@ -125,7 +125,7 @@ public class ChatFilter extends JavaPlugin {
 			URL url = new URL(urlStr);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			HttpURLConnection.setFollowRedirects(true);
-			conn.setRequestProperty ( "User-agent", "[MobHealth Plugin] "+VersionCurrent);
+			conn.setRequestProperty ( "User-agent", "[ChatFilter Plugin] "+VersionCurrent);
 			String inStr = null;
 			inStr = convertStreamToString(conn.getInputStream());
 			return inStr;
