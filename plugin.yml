@@ -5,5 +5,8 @@ description: >
             Maintain a simple list of banned words.  
             Chat messages with these words are cancelled and the offender is sent a message.
             Also a list of words to trigger a public message.
-            It`s rediculous, it's not even funny!
+            It`s ridiculous, it's not even funny!
 commands:
+    ChatFilter:
+        description: Root command for all  ChatFilter Commands.
+        usage: /<command> [reload]

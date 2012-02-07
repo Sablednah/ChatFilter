@@ -18,26 +18,29 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class ChatFilter extends JavaPlugin {
 
 	public static ChatFilter plugin;
-	public final Logger logger = Logger.getLogger("Minecraft");
-	public final ServerChatPlayerListener playerListener = new ServerChatPlayerListener(this);
+	public final static Logger logger = Logger.getLogger("Minecraft");
+	public final PlayerChatListener playerListener = new PlayerChatListener(this);
 
-	public boolean debugMode;
+	public static boolean debugMode;
 
+	private FileConfiguration LangConfig = null;
+	private File LangConfigurationFile = null;
+	
 	public static List<Object> langProfanity;
 	public static String profanityMessage;
 	public static List<Object> langTriggers;
 	public static String eleven;
 
+	private ChatFilterCommandExecutor myCommands;
 	private String VersionNew;
 	private String VersionCurrent;
 
-	private FileConfiguration LangConfig = null;
-	private File LangConfigurationFile = null;
+
 
 	@Override
 	public void onDisable() {
 		PluginDescriptionFile pdfFile = this.getDescription();
-		this.logger.info(pdfFile.getName() + " : --- END OF LINE ---");
+		ChatFilter.logger.info(pdfFile.getName() + " : --- END OF LINE ---");
 
 	}
 	@Override
@@ -51,6 +54,9 @@ public class ChatFilter extends JavaPlugin {
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(this.playerListener, this);
 
+		myCommands = new ChatFilterCommandExecutor(this);
+		getCommand("ChatFilter").setExecutor(myCommands);
+		
 		loadConfiguration();
 
 		/**
@@ -99,7 +105,7 @@ public class ChatFilter extends JavaPlugin {
 		langProfanity = getLangConfig().getList("profanity");
 		profanityMessage = getLangConfig().getString("profanityMessage");
 		langTriggers = getLangConfig().getList("triggers");
-		eleven = getLangConfig().getString("eleven");
+		eleven = getLangConfig().getString("triggerPhrase");
 
 
 		saveLangConfig();
