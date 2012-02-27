@@ -22,6 +22,7 @@ public class ChatFilter extends JavaPlugin {
 	public final PlayerChatListener playerListener = new PlayerChatListener(this);
 
 	public static boolean debugMode;
+	public static boolean showInConsole;
 	public static boolean kick;
 
 	private FileConfiguration LangConfig = null;
@@ -93,12 +94,14 @@ public class ChatFilter extends JavaPlugin {
 		headertext="Default ChatFilter Config file\r\n\r\n";
 		headertext+="debugMode: [true|false] Enable extra debug info in logs.\r\n";
 		headertext+="kick: [true|false] Kick players after warning.\r\n";
+		headertext+="showInConsole: [true|false] Show offending player and message in console.\r\n";
 		headertext+="\r\n";
 
 		getConfig().options().header(headertext);
 		getConfig().options().copyHeader(true);
 
 		debugMode = getConfig().getBoolean("debugMode");
+		showInConsole = getConfig().getBoolean("showInConsole");
 		kick = getConfig().getBoolean("kick");
 
 		saveConfig();

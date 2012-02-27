@@ -19,6 +19,7 @@ public class ChatFilterCommandExecutor implements CommandExecutor {
 				
 				plugin.reloadConfig();
 				ChatFilter.debugMode = plugin.getConfig().getBoolean("debugMode");
+				ChatFilter.showInConsole = plugin.getConfig().getBoolean("showInConsole");
 				ChatFilter.kick = plugin.getConfig().getBoolean("kick");
 
 				plugin.reloadLangConfig();

@@ -66,6 +66,10 @@ public class PlayerChatListener implements Listener  {
 			if (ChatFilter.kick) {
 				p.kickPlayer(outMessage);
 			}
+			if (ChatFilter.showInConsole) {
+				String consoleMsg = p.getName() + "said: " + message;
+				System.out.print("[ChatFilter] " + consoleMsg);
+			}
 		}
 	}
 }
