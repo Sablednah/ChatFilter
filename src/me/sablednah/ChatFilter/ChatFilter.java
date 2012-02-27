@@ -22,6 +22,7 @@ public class ChatFilter extends JavaPlugin {
 	public final PlayerChatListener playerListener = new PlayerChatListener(this);
 
 	public static boolean debugMode;
+	public static boolean kick;
 
 	private FileConfiguration LangConfig = null;
 	private File LangConfigurationFile = null;
@@ -41,8 +42,8 @@ public class ChatFilter extends JavaPlugin {
 	public void onDisable() {
 		PluginDescriptionFile pdfFile = this.getDescription();
 		ChatFilter.logger.info(pdfFile.getName() + " : --- END OF LINE ---");
-
 	}
+	
 	@Override
 	public void onEnable() {
 		PluginDescriptionFile pdfFile = this.getDescription();
@@ -91,12 +92,14 @@ public class ChatFilter extends JavaPlugin {
 		String headertext;
 		headertext="Default ChatFilter Config file\r\n\r\n";
 		headertext+="debugMode: [true|false] Enable extra debug info in logs.\r\n";
+		headertext+="kick: [true|false] Kick players after warning.\r\n";
 		headertext+="\r\n";
 
 		getConfig().options().header(headertext);
 		getConfig().options().copyHeader(true);
 
 		debugMode = getConfig().getBoolean("debugMode");
+		kick = getConfig().getBoolean("kick");
 
 		saveConfig();
 
