@@ -3,8 +3,5 @@
 # debugMode: [true|false] Enable extra debug info in logs.
 # kick: [true|false] Kick players after warning.
 #
-
 debugMode: false
-
 kick: false
-
