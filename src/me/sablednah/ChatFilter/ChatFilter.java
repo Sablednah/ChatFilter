@@ -29,6 +29,7 @@ public class ChatFilter extends JavaPlugin {
 	private File LangConfigurationFile = null;
 	
 	public static List<Object> langProfanity;
+	public static List<Object> profanityWordMatch;
 	public static String profanityMessage;
 	public static List<Object> langTriggers;
 	public static String eleven;
@@ -109,6 +110,7 @@ public class ChatFilter extends JavaPlugin {
 		getLangConfig();
 
 		langProfanity = getLangConfig().getList("profanity");
+		profanityWordMatch = getLangConfig().getList("profanityWordMatch");
 		profanityMessage = getLangConfig().getString("profanityMessage");
 		langTriggers = getLangConfig().getList("triggers");
 		eleven = getLangConfig().getString("triggerPhrase");

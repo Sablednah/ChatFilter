@@ -4,7 +4,16 @@ profanity:
 - piss
 - cunt
 
+profanityWordMatch:
+- ass
+- poo
+- boob
+- boobs
+- crap
+
 profanityMessage: "Oi %N! Mind your language!"
+
+
 
 triggers:
 - eleven

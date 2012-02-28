@@ -24,6 +24,7 @@ public class ChatFilterCommandExecutor implements CommandExecutor {
 
 				plugin.reloadLangConfig();
 				ChatFilter.langProfanity = plugin.getLangConfig().getList("profanity");
+				ChatFilter.profanityWordMatch = plugin.getLangConfig().getList("profanityWordMatch");
 				ChatFilter.profanityMessage = plugin.getLangConfig().getString("profanityMessage");
 				ChatFilter.langTriggers = plugin.getLangConfig().getList("triggers");
 				ChatFilter.eleven = plugin.getLangConfig().getString("triggerPhrase");
