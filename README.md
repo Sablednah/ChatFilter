@@ -22,6 +22,8 @@ None!
 
 
 ### Changelog
+1.3:  Config options to match whole words.
+
 1.2:  Option to show offending messages in console.
 
 1.1:  Added kick option.
