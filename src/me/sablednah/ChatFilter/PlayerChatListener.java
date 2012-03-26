@@ -3,7 +3,9 @@ package me.sablednah.ChatFilter;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.util.Iterator;
+import java.util.regex.Matcher;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,8 +21,11 @@ public class PlayerChatListener implements Listener  {
 		this.plugin=instance;
 	}
 
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerChat(PlayerChatEvent chat) {
+		
+		if (chat.isCancelled()) { return; } // no need to do anything.
+		
 		String message = chat.getMessage();
 		String message_lower = message.toLowerCase();
 
@@ -102,9 +107,53 @@ public class PlayerChatListener implements Listener  {
 
 		if (hasSwear) {
 			Player p = chat.getPlayer();
-			String outMessage =ChatFilter.profanityMessage.replaceAll("%N", p.getName());
+			String outMessage = ChatFilter.profanityMessage.replaceAll("%N", p.getName());
 			p.sendMessage(BLUE + "[ChatFilter] " + WHITE + outMessage);
-			chat.setCancelled(true);
+			if (ChatFilter.censor) {
+				String messageToSend = chat.getMessage();
+				iter = ChatFilter.langProfanity.iterator();
+				while (iter.hasNext()) {
+					String swear;
+					swear = (String) (iter.next());
+					if(message_lower.contains(swear)) {
+						messageToSend=messageToSend.replaceAll(("(?i)"+swear), Matcher.quoteReplacement(ChatFilter.censorText));
+					}
+				}
+				
+				
+				String[] outwords = messageToSend.split(" ");
+				for (int i = 0; i < outwords.length; i++) {
+				//for (String wordToCheck : outwords) {
+					
+					iter = ChatFilter.profanityWordMatch.iterator();
+					while (iter.hasNext()) {
+						String swearWord;
+						swearWord = (String) (iter.next());
+						String testWord;
+						testWord = outwords[i].toLowerCase();
+						testWord = Normalizer.normalize(testWord, Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+						testWord = testWord.replaceAll("[^a-z]"," ").trim();
+
+						
+						System.out.print("[ChatFilter] testWord: " + testWord);
+						System.out.print("[ChatFilter] swearWord: " + swearWord);
+
+						
+						if(swearWord.equals(testWord)) {
+							System.out.print("[ChatFilter] testWord: " + testWord + " = swearWord: " + swearWord);
+							outwords[i] = ChatFilter.censorText;
+						}
+					}
+				}
+				
+				messageToSend=StringUtils.join(outwords," ");
+				System.out.print("[ChatFilter] cencored: " + messageToSend);
+				
+				chat.setMessage(messageToSend);
+				
+			} else {
+				chat.setCancelled(true);
+			}
 			if (ChatFilter.kick) {
 				p.kickPlayer(outMessage);
 			}

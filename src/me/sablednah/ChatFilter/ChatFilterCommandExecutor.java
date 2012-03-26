@@ -21,6 +21,7 @@ public class ChatFilterCommandExecutor implements CommandExecutor {
 				ChatFilter.debugMode = plugin.getConfig().getBoolean("debugMode");
 				ChatFilter.showInConsole = plugin.getConfig().getBoolean("showInConsole");
 				ChatFilter.kick = plugin.getConfig().getBoolean("kick");
+				ChatFilter.censor=plugin.getConfig().getBoolean("censor");
 
 				plugin.reloadLangConfig();
 				ChatFilter.langProfanity = plugin.getLangConfig().getList("profanity");
@@ -28,7 +29,8 @@ public class ChatFilterCommandExecutor implements CommandExecutor {
 				ChatFilter.profanityMessage = plugin.getLangConfig().getString("profanityMessage");
 				ChatFilter.langTriggers = plugin.getLangConfig().getList("triggers");
 				ChatFilter.eleven = plugin.getLangConfig().getString("triggerPhrase");
-
+				ChatFilter.censorText=plugin.getLangConfig().getString("censorText");
+				
 				System.out.print("[ChatFilter] Reloaded.");
 				
 				return true;

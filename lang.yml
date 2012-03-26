@@ -13,7 +13,7 @@ profanityWordMatch:
 
 profanityMessage: "Oi %N! Mind your language!"
 
-
+censorText: "!@$#"
 
 triggers:
 - eleven

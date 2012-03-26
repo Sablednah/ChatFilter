@@ -10,3 +10,5 @@ debugMode: false
 kick: false
 
 showInConsole: true
+
+censor: false

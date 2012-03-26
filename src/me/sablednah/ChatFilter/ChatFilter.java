@@ -24,6 +24,7 @@ public class ChatFilter extends JavaPlugin {
 	public static boolean debugMode;
 	public static boolean showInConsole;
 	public static boolean kick;
+	public static boolean censor;
 
 	private FileConfiguration LangConfig = null;
 	private File LangConfigurationFile = null;
@@ -33,6 +34,7 @@ public class ChatFilter extends JavaPlugin {
 	public static String profanityMessage;
 	public static List<Object> langTriggers;
 	public static String eleven;
+	public static String censorText;
 
 	private ChatFilterCommandExecutor myCommands;
 	private String VersionNew;
@@ -104,7 +106,8 @@ public class ChatFilter extends JavaPlugin {
 		debugMode = getConfig().getBoolean("debugMode");
 		showInConsole = getConfig().getBoolean("showInConsole");
 		kick = getConfig().getBoolean("kick");
-
+		censor=getConfig().getBoolean("censor");
+		
 		saveConfig();
 
 		getLangConfig();
@@ -114,7 +117,7 @@ public class ChatFilter extends JavaPlugin {
 		profanityMessage = getLangConfig().getString("profanityMessage");
 		langTriggers = getLangConfig().getList("triggers");
 		eleven = getLangConfig().getString("triggerPhrase");
-
+		censorText=getLangConfig().getString("censorText");
 
 		saveLangConfig();
 	}
