@@ -52,7 +52,8 @@ public class PlayerChatListener implements Listener  {
 			}, 2L);
 		}
 
-
+		Player p = chat.getPlayer();
+		if (p.hasPermission("chatfilter.canswear")) { return; } // player is allowed to be naughty
 
 		boolean hasSwear = false;
 
@@ -106,7 +107,7 @@ public class PlayerChatListener implements Listener  {
 
 
 		if (hasSwear) {
-			Player p = chat.getPlayer();
+			
 			String outMessage = ChatFilter.profanityMessage.replaceAll("%N", p.getName());
 			p.sendMessage(BLUE + "[ChatFilter] " + WHITE + outMessage);
 			if (ChatFilter.censor) {

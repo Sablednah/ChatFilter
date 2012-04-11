@@ -20,10 +20,13 @@ None!
 
 ### Permissions
 
-None!
+    chatfilter.canswear
+Users with this node are not censored.
 
 
 ### Changelog
+1.5.0:  Permissions node to allow select users to swear.
+
 1.4:  Optional censorship mode.  Replaced words with configurable text.
 
 1.3:  Config options to match whole words.
