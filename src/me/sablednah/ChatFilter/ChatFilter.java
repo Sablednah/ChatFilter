@@ -72,8 +72,8 @@ public class ChatFilter extends JavaPlugin {
 			public void run() {
 				try {
 					VersionNew = getNewVersion(VersionCurrent);
-					String VersionOld = getDescription().getVersion().substring(0, 3);
-					if (Float.parseFloat(VersionNew) > Float.parseFloat(VersionOld)) {
+					String VersionOld = getDescription().getVersion();
+					if (!VersionNew.contains(VersionOld)) {
 						logger.warning(VersionNew + " is available. You're using " + VersionOld);
 						logger.warning("http://dev.bukkit.org/server-mods/chatfilter/");
 					}
