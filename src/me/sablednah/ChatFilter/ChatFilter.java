@@ -28,7 +28,7 @@ public class ChatFilter extends JavaPlugin {
 
 	private FileConfiguration LangConfig = null;
 	private File LangConfigurationFile = null;
-	
+
 	public static List<Object> langProfanity;
 	public static List<Object> profanityWordMatch;
 	public static String profanityMessage;
@@ -37,6 +37,8 @@ public class ChatFilter extends JavaPlugin {
 	public static String censorText;
 
 	private ChatFilterCommandExecutor myCommands;
+	public static PluginDescriptionFile pdfFile;
+	public static String myName;	
 	private String VersionNew;
 	private String VersionCurrent;
 
@@ -47,12 +49,13 @@ public class ChatFilter extends JavaPlugin {
 		PluginDescriptionFile pdfFile = this.getDescription();
 		ChatFilter.logger.info(pdfFile.getName() + " : --- END OF LINE ---");
 	}
-	
+
 	@Override
 	public void onEnable() {
-		PluginDescriptionFile pdfFile = this.getDescription();
-		String myName=pdfFile.getName();
-		VersionCurrent = getDescription().getVersion().substring(0, 3);
+		plugin = this;
+		pdfFile = plugin.getDescription();
+		myName = pdfFile.getName();
+		VersionCurrent = pdfFile.getVersion();
 
 		logger.info("[" + myName + "] Version " + pdfFile.getVersion() + " starting.");
 
@@ -61,8 +64,8 @@ public class ChatFilter extends JavaPlugin {
 
 		myCommands = new ChatFilterCommandExecutor(this);
 		getCommand("ChatFilter").setExecutor(myCommands);
-		
-		loadConfiguration();
+
+		loadConfiguration(true);
 
 		/**
 		 *  Schedule a version check every 6 hours for update notification .
@@ -81,7 +84,7 @@ public class ChatFilter extends JavaPlugin {
 					// ignore exceptions
 				}
 			}
-		}, 0, 5184000);
+		}, 0, 432000);
 
 		logger.info("[" + myName + "] Online.");
 	}
@@ -90,36 +93,44 @@ public class ChatFilter extends JavaPlugin {
 	/**
 	 * Initialise config file 
 	 */
-	public void loadConfiguration() {
-		getConfig().options().copyDefaults(true);
+	public void loadConfiguration(Boolean firstrun) {
+		plugin.getConfig().options().copyDefaults(true);
 
-		String headertext;
-		headertext="Default ChatFilter Config file\r\n\r\n";
-		headertext+="debugMode: [true|false] Enable extra debug info in logs.\r\n";
-		headertext+="kick: [true|false] Kick players after warning.\r\n";
-		headertext+="showInConsole: [true|false] Show offending player and message in console.\r\n";
-		headertext+="\r\n";
+		if (firstrun) {
+			String headertext;
+			headertext="Default ChatFilter Config file\r\n\r\n";
+			headertext+="debugMode: [true|false] Enable extra debug info in logs.\r\n";
+			headertext+="kick: [true|false] Kick players after warning.\r\n";
+			headertext+="showInConsole: [true|false] Show offending player and message in console.\r\n";
+			headertext+="\r\n";
 
-		getConfig().options().header(headertext);
-		getConfig().options().copyHeader(true);
+			plugin.getConfig().options().header(headertext);
+			plugin.getConfig().options().copyHeader(true);
+		} else {
+			plugin.reloadConfig();
+		}
 
-		debugMode = getConfig().getBoolean("debugMode");
-		showInConsole = getConfig().getBoolean("showInConsole");
-		kick = getConfig().getBoolean("kick");
-		censor=getConfig().getBoolean("censor");
+		ChatFilter.debugMode = plugin.getConfig().getBoolean("debugMode");
+		ChatFilter.showInConsole = plugin.getConfig().getBoolean("showInConsole");
+		ChatFilter.kick = plugin.getConfig().getBoolean("kick");
+		ChatFilter.censor=plugin.getConfig().getBoolean("censor");
+
+		plugin.saveConfig();
+
+		if (firstrun) {
+			plugin.getLangConfig();
+		} else {
+			plugin.reloadLangConfig();
+		}
 		
-		saveConfig();
+		ChatFilter.langProfanity = plugin.getLangConfig().getList("profanity");
+		ChatFilter.profanityWordMatch = plugin.getLangConfig().getList("profanityWordMatch");
+		ChatFilter.profanityMessage = plugin.getLangConfig().getString("profanityMessage");
+		ChatFilter.langTriggers = plugin.getLangConfig().getList("triggers");
+		ChatFilter.eleven = plugin.getLangConfig().getString("triggerPhrase");
+		ChatFilter.censorText=plugin.getLangConfig().getString("censorText");
 
-		getLangConfig();
-
-		langProfanity = getLangConfig().getList("profanity");
-		profanityWordMatch = getLangConfig().getList("profanityWordMatch");
-		profanityMessage = getLangConfig().getString("profanityMessage");
-		langTriggers = getLangConfig().getList("triggers");
-		eleven = getLangConfig().getString("triggerPhrase");
-		censorText=getLangConfig().getString("censorText");
-
-		saveLangConfig();
+		plugin.saveLangConfig();
 	}
 
 	/**

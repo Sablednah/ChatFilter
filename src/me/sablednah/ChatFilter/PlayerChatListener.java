@@ -47,7 +47,11 @@ public class PlayerChatListener implements Listener  {
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 				public void run() {
 					ChatColor WHITE = ChatColor.WHITE;
-					plugin.getServer().broadcastMessage(WHITE + ChatFilter.eleven);
+					String broadcast = ChatFilter.eleven;
+					for (int chatcntr = 0;chatcntr<16;chatcntr++){
+						broadcast=broadcast.replaceAll("&"+Integer.toHexString(chatcntr),(ChatColor.getByChar(Integer.toHexString(chatcntr)))+"");
+					}
+					plugin.getServer().broadcastMessage(WHITE + broadcast);
 				}
 			}, 2L);
 		}
@@ -109,6 +113,9 @@ public class PlayerChatListener implements Listener  {
 		if (hasSwear) {
 			
 			String outMessage = ChatFilter.profanityMessage.replaceAll("%N", p.getName());
+			for (int chatcntr = 0;chatcntr<16;chatcntr++){
+				outMessage=outMessage.replaceAll("&"+Integer.toHexString(chatcntr),(ChatColor.getByChar(Integer.toHexString(chatcntr)))+"");
+			}
 			p.sendMessage(BLUE + "[ChatFilter] " + WHITE + outMessage);
 			if (ChatFilter.censor) {
 				String messageToSend = chat.getMessage();

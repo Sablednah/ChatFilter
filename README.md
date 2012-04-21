@@ -23,8 +23,12 @@ None!
     chatfilter.canswear
 Users with this node are not censored.
 
+    chatfilter.reload
+Users with this node can reload config.
 
 ### Changelog
+1.6.0:  Permissions node for reload.  Colour support.
+
 1.5.0:  Permissions node to allow select users to swear.
 
 1.4:  Optional censorship mode.  Replaced words with configurable text.
