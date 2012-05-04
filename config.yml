@@ -11,4 +11,4 @@ debugMode: false
 kick: false
 showInConsole: true
 censor: false
-agressiveMatching: false
+aggressiveMatching: false

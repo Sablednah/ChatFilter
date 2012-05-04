@@ -105,7 +105,7 @@ public class ChatFilter extends JavaPlugin {
 			headertext+="kick: [true|false] Kick players after warning.\r\n";
 			headertext+="showInConsole: [true|false] Show offending player and message in console.\r\n";
 			headertext+="censor:  [true|false] Replace offending text instead of blocking message.\r\n";
-			headertext+="agressiveMatching: [true|false]  Attempts to match more words by looking for 3=e 0=o etc.\r\n";
+			headertext+="aggressive: [true|false]  Attempts to match more words by looking for 3=e 0=o etc.\r\n";
 			headertext+="\r\n";
 
 			plugin.getConfig().options().header(headertext);
@@ -118,7 +118,7 @@ public class ChatFilter extends JavaPlugin {
 		ChatFilter.showInConsole = plugin.getConfig().getBoolean("showInConsole");
 		ChatFilter.kick = plugin.getConfig().getBoolean("kick");
 		ChatFilter.censor=plugin.getConfig().getBoolean("censor");
-		ChatFilter.agressiveMatching=plugin.getConfig().getBoolean("agressiveMatching");
+		ChatFilter.agressiveMatching=plugin.getConfig().getBoolean("aggressive");
 
 		plugin.saveConfig();
 
