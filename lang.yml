@@ -13,6 +13,8 @@ profanityWordMatch:
 
 profanityMessage: "Oi %N! Mind your language!"
 
+blockMessage: "I'm sorry %N, I can't let you do that."
+
 censorText: "!@$#"
 
 triggers:

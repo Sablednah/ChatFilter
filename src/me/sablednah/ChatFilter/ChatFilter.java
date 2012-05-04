@@ -25,6 +25,7 @@ public class ChatFilter extends JavaPlugin {
 	public static boolean showInConsole;
 	public static boolean kick;
 	public static boolean censor;
+	public static boolean agressiveMatching;
 
 	private FileConfiguration LangConfig = null;
 	private File LangConfigurationFile = null;
@@ -35,6 +36,7 @@ public class ChatFilter extends JavaPlugin {
 	public static List<Object> langTriggers;
 	public static String eleven;
 	public static String censorText;
+	public static String blockMessage;
 
 	private ChatFilterCommandExecutor myCommands;
 	public static PluginDescriptionFile pdfFile;
@@ -102,6 +104,8 @@ public class ChatFilter extends JavaPlugin {
 			headertext+="debugMode: [true|false] Enable extra debug info in logs.\r\n";
 			headertext+="kick: [true|false] Kick players after warning.\r\n";
 			headertext+="showInConsole: [true|false] Show offending player and message in console.\r\n";
+			headertext+="censor:  [true|false] Replace offending text instead of blocking message.\r\n";
+			headertext+="agressiveMatching: [true|false]  Attempts to match more words by looking for 3=e 0=o etc.\r\n";
 			headertext+="\r\n";
 
 			plugin.getConfig().options().header(headertext);
@@ -114,6 +118,7 @@ public class ChatFilter extends JavaPlugin {
 		ChatFilter.showInConsole = plugin.getConfig().getBoolean("showInConsole");
 		ChatFilter.kick = plugin.getConfig().getBoolean("kick");
 		ChatFilter.censor=plugin.getConfig().getBoolean("censor");
+		ChatFilter.agressiveMatching=plugin.getConfig().getBoolean("agressiveMatching");
 
 		plugin.saveConfig();
 
@@ -122,13 +127,14 @@ public class ChatFilter extends JavaPlugin {
 		} else {
 			plugin.reloadLangConfig();
 		}
-		
+
 		ChatFilter.langProfanity = plugin.getLangConfig().getList("profanity");
 		ChatFilter.profanityWordMatch = plugin.getLangConfig().getList("profanityWordMatch");
 		ChatFilter.profanityMessage = plugin.getLangConfig().getString("profanityMessage");
 		ChatFilter.langTriggers = plugin.getLangConfig().getList("triggers");
 		ChatFilter.eleven = plugin.getLangConfig().getString("triggerPhrase");
 		ChatFilter.censorText=plugin.getLangConfig().getString("censorText");
+		ChatFilter.blockMessage=plugin.getLangConfig().getString("blockMessage");
 
 		plugin.saveLangConfig();
 	}

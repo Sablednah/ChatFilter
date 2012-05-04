@@ -3,12 +3,12 @@
 # debugMode: [true|false] Enable extra debug info in logs.
 # kick: [true|false] Kick players after warning.
 # showInConsole: [true|false] Show player and offending message in console.
-#
+# censor:  [true|false] Replace offending text instead of blocking message.
+# agressiveMatching: [true|false]  Attempts to match more words by looking for 3=e 0=o etc.
+
 
 debugMode: false
-
 kick: false
-
 showInConsole: true
-
 censor: false
+agressiveMatching: false

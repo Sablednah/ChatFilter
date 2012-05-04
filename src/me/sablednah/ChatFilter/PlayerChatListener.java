@@ -26,11 +26,14 @@ public class PlayerChatListener implements Listener  {
 		
 		if (chat.isCancelled()) { return; } // no need to do anything.
 		
-		String message = chat.getMessage();
-		String message_lower = message.toLowerCase();
-
+		Player p = chat.getPlayer();
 		ChatColor BLUE = ChatColor.BLUE;
 		ChatColor WHITE = ChatColor.WHITE;
+		
+
+		
+		String message = chat.getMessage();
+		String message_lower = message.toLowerCase();
 
 		boolean hasTrigger=false;
 
@@ -56,16 +59,40 @@ public class PlayerChatListener implements Listener  {
 			}, 2L);
 		}
 
-		Player p = chat.getPlayer();
+		if (p.hasPermission("chatfilter.blockchat")) {   // player cant chat.
+			String blockMessage = ChatFilter.blockMessage.replaceAll("%N", p.getName());
+			for (int chatcntr = 0;chatcntr<16;chatcntr++){
+				blockMessage=blockMessage.replaceAll("&"+Integer.toHexString(chatcntr),(ChatColor.getByChar(Integer.toHexString(chatcntr)))+"");
+			}
+			p.sendMessage(BLUE + "[ChatFilter] " + WHITE + blockMessage);
+			chat.setCancelled(true);
+			
+			return;
+		} 		
+
 		if (p.hasPermission("chatfilter.canswear")) { return; } // player is allowed to be naughty
 
 		boolean hasSwear = false;
 
+		String cleanedMsg = message_lower.trim();
+		cleanedMsg = Normalizer.normalize(cleanedMsg, Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+		
+		if (ChatFilter.agressiveMatching) {
+			cleanedMsg=cleanedMsg.replaceAll("3","e");
+			cleanedMsg=cleanedMsg.replaceAll("0","o");
+			cleanedMsg=cleanedMsg.replaceAll("4","a");
+			cleanedMsg=cleanedMsg.replaceAll("7","t");
+			cleanedMsg=cleanedMsg.replaceAll("1","l");
+			cleanedMsg=cleanedMsg.replaceAll("@","a");
+		}
+		
+		cleanedMsg=cleanedMsg.replaceAll("[^a-z]"," ");
+		
 		Iterator<Object> iter = ChatFilter.langProfanity.iterator();
 		while (iter.hasNext()) {
 			String swear;
 			swear = (String) (iter.next());
-			if(message_lower.contains(swear)) {
+			if(cleanedMsg.contains(swear)) {
 				hasSwear=true;
 				break;
 			}
@@ -77,10 +104,6 @@ public class PlayerChatListener implements Listener  {
 
 		if (!hasSwear) {
 			//ChatFilter.profanityWordMatch
-
-			String cleanedMsg = message_lower.trim();
-			cleanedMsg = Normalizer.normalize(cleanedMsg, Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-			cleanedMsg=cleanedMsg.replaceAll("[^a-z]"," ");
 	
 			if (ChatFilter.debugMode) {
 				System.out.print("[ChatFilter] cleanedMsg = " + cleanedMsg); 
