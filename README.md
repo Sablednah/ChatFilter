@@ -11,12 +11,14 @@ showInConsole: [true|false] Show player's name and the offending message in cons
 
 censor: [true|false] Censor messages instead of blocking entire message.
 
+agressiveMatching: [true|false]  Attempts to match more words by looking for 3=e 0=o etc.
+
 Edit lang.yml (created on first run) to change the trigger words and notification text. 
 
 ### Commands
 
-None!
-
+    /charfilter reload
+Reload config and lang files.
 
 ### Permissions
 
@@ -26,7 +28,14 @@ Users with this node are not censored.
     chatfilter.reload
 Users with this node can reload config.
 
+    chatfilter.blockchat
+Users with this node cannot chat.
+
 ### Changelog
+1.7.1: Fixed config typo
+
+1.7.0:  Aggressive matching option.  Permissions node to block chat completely. 
+
 1.6.0:  Permissions node for reload.  Colour support.
 
 1.5.0:  Permissions node to allow select users to swear.
