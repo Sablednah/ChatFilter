@@ -59,7 +59,7 @@ public class PlayerChatListener implements Listener  {
 			}, 2L);
 		}
 
-		if (p.hasPermission("chatfilter.blockchat")) {   // player cant chat.
+		if (!p.hasPermission("chatfilter.canchat")) {   // player can't chat.
 			String blockMessage = ChatFilter.blockMessage.replaceAll("%N", p.getName());
 			for (int chatcntr = 0;chatcntr<16;chatcntr++){
 				blockMessage=blockMessage.replaceAll("&"+Integer.toHexString(chatcntr),(ChatColor.getByChar(Integer.toHexString(chatcntr)))+"");
@@ -68,7 +68,7 @@ public class PlayerChatListener implements Listener  {
 			chat.setCancelled(true);
 			
 			return;
-		} 		
+		}
 
 		if (p.hasPermission("chatfilter.canswear")) { return; } // player is allowed to be naughty
 

@@ -20,9 +20,9 @@ permissions:
     chatfilter.canswear:
         description: Allows user to swear.
         default: false
-    chatfilter.blockchat:
-        description: Prevents user from swearing.
-        default: false
+    chatfilter.canchat:
+        description: Allows User to chat..
+        default: true
     chatfilter.reload:
         description: Allows user to reload settings.
         default: op
