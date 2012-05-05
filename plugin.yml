@@ -1,6 +1,6 @@
 name: ChatFilter
 main: me.sablednah.ChatFilter.ChatFilter
-version: 1.7.1
+version: 1.7.2
 description: Maintain a simple list of banned words.  
             Chat messages with these words are cancelled and the offender is sent a message.
             Also a list of words to trigger a public message.

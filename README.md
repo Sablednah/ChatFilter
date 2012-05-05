@@ -32,7 +32,9 @@ Users with this node can reload config.
 Users with this node cannot chat.
 
 ### Changelog
-1.7.1: Fixed config typo
+1.7.2:  Changed permissions node for chat to chatfilter.canchat
+
+1.7.1:  Fixed config typo
 
 1.7.0:  Aggressive matching option.  Permissions node to block chat completely. 
 
