@@ -28,8 +28,8 @@ Users with this node are not censored.
     chatfilter.reload
 Users with this node can reload config.
 
-    chatfilter.blockchat
-Users with this node cannot chat.
+    chatfilter.canchat
+Users with this node can chat.
 
 ### Changelog
 1.7.2:  Changed permissions node for chat to chatfilter.canchat
