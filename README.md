@@ -32,6 +32,8 @@ Users with this node can reload config.
 Users with this node can chat.
 
 ### Changelog
+2.0.0:  Added command filtering (for /msg /r etc).  Removed debug messages.
+
 1.7.2:  Changed permissions node for chat to chatfilter.canchat
 
 1.7.1:  Fixed config typo
