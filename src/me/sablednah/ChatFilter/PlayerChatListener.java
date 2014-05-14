@@ -113,12 +113,17 @@ public class PlayerChatListener implements Listener {
 		String message = chat.getMessage();
 		String message_lower = message.toLowerCase();
 
+//		System.out.print("Checkin: "+message);
+		
 		boolean hasChatCommand = false;
 		for (String command : ChatFilter.commands) {
-			if (message_lower.equalsIgnoreCase(command) || command.toLowerCase().startsWith(message_lower + " ")) {
+//			System.out.print("Checkin: "+command);
+			if (message_lower.toLowerCase().startsWith(command + " ",1)) {
 				hasChatCommand = true;
 			}
 		}
+//		System.out.print("Checkin: "+hasChatCommand);
+		
 		if (!hasChatCommand) {
 			return;
 		} // not a chat command
