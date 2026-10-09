@@ -4,8 +4,10 @@
 commands, sees through the usual disguises, blocks links and spam, and needs nothing installed on
 the client. Unmodified clients get all of it.
 
-Version 3 is a rebuild of this plugin, sharing its filtering engine with the NeoForge mod
-ChatFilter ReForged. Most of what was asked for in these comments over the years is in it.
+> **Also for NeoForge:** [ChatFilter ReForged](https://www.curseforge.com/projects/1735375), the same
+> filter as a server-side mod for Minecraft 1.21.11 and 26.x.
+
+Version 3 is a rebuild of this plugin, sharing its filtering engine with that mod. Most of what was asked for in these comments over the years is in it.
 **Upgrading from 2.x:** swap the jar. Your config and word lists are carried over on first start,
 the originals are kept as backups, and your old block or censor behaviour stays as it was.
 

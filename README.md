@@ -5,7 +5,8 @@ in chat and in `/msg`-style commands, sees through the usual disguises, blocks l
 needs nothing on the client.
 
 Version 3 is a rebuild of the 2012 plugin, sharing its filtering engine with the NeoForge mod
-[ChatFilter ReForged](https://github.com/Sablednah/ChatFilter-ReForged). The 2.x plugin is on the
+[ChatFilter ReForged](https://github.com/Sablednah/ChatFilter-ReForged)
+([CurseForge](https://www.curseforge.com/projects/1735375)). The 2.x plugin is on the
 `master` branch.
 
 ## What it does
