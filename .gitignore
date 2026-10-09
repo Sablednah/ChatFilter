@@ -1,0 +1,26 @@
+### Gradle ###
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+### IDEs ###
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+.classpath
+.project
+.settings/
+bin/
+.vscode/
+
+### Mac OS ###
+.DS_Store
+
+### Local test servers (machine-specific, not source) ###
+/servers/
+/tools/bot/node_modules/
+
+### Local editor/agent settings ###
+/.claude/settings.local.json

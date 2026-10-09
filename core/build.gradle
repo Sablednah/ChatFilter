@@ -1,0 +1,7 @@
+// Loader-agnostic logic, mirrored VERBATIM from ChatFilter-ReForged's com.sablednah.chatfilter.core
+// (scripts/sync-core.sh copies it; scripts/sync-core.sh --check diffs it).
+// No Minecraft, Bukkit or Forge imports: diff it against the Forge copy before a release rather
+// than editing it here.
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+}

@@ -1,0 +1,211 @@
+# TEST CONFIG for the bot rig: the shipped config.yml with one change - severe is SHADOW with
+# 'banana' on it, so the bot can check a soft-muted line. run.sh drops this into plugins/ChatFilter/.
+# Regenerate it from bukkit/src/main/resources/config.yml when that changes.
+# ChatFilter - config.yml
+#
+# Sensible defaults, everything changeable. Out of the box it masks the classic word list silently,
+# blocks links and floods, quietens shouting, filters the usual private-message commands, and
+# still answers "eleven". Every list can be emptied, and stays empty.
+#
+# Edit, then /chatfilter reload. A mistake (a broken pattern, an unknown action) is reported and
+# skipped; everything else keeps working.
+#
+# Upgrading from ChatFilter 2.x? Your old config.yml and lang.yml were carried over into this file
+# on first start, and kept beside it as config-2.x.yml.bak and lang-2.x.yml.bak.
+
+# How hard the filter looks. All of these apply to every word list.
+matching:
+  # Fold accented letters to their base, so 'shït' is 'shit'.
+  stripAccents: true
+  # Fold look-alike letters from other alphabets (Cyrillic 'а' for 'a') and pasted 'fancy text'.
+  lookalikes: true
+  # Ignore & colour codes inside words ('f&cuck').
+  stripColourCodes: true
+  # Join words spelled out letter by letter ('s h i t', 's.h.i.t') when at least this many single
+  # letters are in a row. 0 turns it off.
+  joinSpelledOut: 3
+  # Read 3 as e, 0 as o, $ as s, @ as a and so on - the old 'aggressiveMatching'.
+  leetspeak: true
+  # Read * in place of a vowel as that vowel: 'f*ck', 'sh*t'.
+  wildcards: true
+  # Endings a whole-word entry also catches: 'boob' catches 'boobs'.
+  wordSuffixes: [s, es, ed, er, ers, ing, y]
+
+# How REPLACE writes over a word.
+censor:
+  # FIXED - the whole word becomes 'text'; REPEAT - every letter becomes the first character of
+  # 'text'; GRAWLIX - cartoon swearing the length of the word: @#$%
+  style: FIXED
+  text: "!@$#"
+
+# Every category below shares these settings:
+#   enabled     whether it runs at all
+#   action      LOG     - record it (console, staff alerts, strikes) and change nothing
+#               MASK    - other players see the caught words as ####; the sender, and anyone with
+#                         chatfilter.see, sees what was typed. Silent: nobody is told.
+#               REPLACE - rewrite the caught words for everyone, using 'censor' above
+#               SHADOW  - the sender sees the line sent; nobody else sees it at all. Silent.
+#                         A command caught this way is quietly not run.
+#               BLOCK   - stop it
+#   tellSender  send the sender 'message' when this category REPLACEs or BLOCKs (MASK and SHADOW
+#               never tell anybody - that is the point of them)
+#   message     what they are told; blank says nothing. {player} (or the old %N) is their name.
+#   strikes     strikes added each time, 0 for none (see 'strikes')
+#   alertStaff  tell staff with chatfilter.alerts
+
+# Everyday swearing. The old plugin's lists, masked silently by default.
+profanity:
+  enabled: true
+  action: MASK
+  tellSender: true
+  message: "Oi {player}! Mind your language!"
+  strikes: 1
+  alertStaff: true
+  # Caught anywhere, even inside another word. Leetspeak, accents, look-alikes, stretched letters
+  # (fuuuck) and spelled-out letters (f.u.c.k) are all handled: list the plain word once.
+  anywhere: [shit, fuck, piss, cunt]
+  # Caught only as a whole word, plus wordSuffixes. For words that hide inside innocent ones:
+  # 'ass' here leaves 'class' and 'grass' alone.
+  words: [ass, arse, poo, boob, crap, twat, wank, bollocks, bitch]
+  # Regular expressions, matched case-insensitively against the accent-folded text.
+  patterns: []
+  # Never caught, even with a listed word inside them - the Scunthorpe problem.
+  allowed: [scunthorpe, shiitake, shitake]
+
+# Words that should stop a message outright, and cost more. Empty by default: every server's list
+# is different, and nobody should get one they did not choose.
+severe:
+  enabled: true
+  action: SHADOW
+  tellSender: true
+  message: "That one is not welcome here."
+  strikes: 3
+  alertStaff: true
+  anywhere: []
+  words: [banana]
+  patterns: []
+  allowed: []
+
+# Web addresses and IP addresses. Players with chatfilter.links may always post links.
+links:
+  enabled: true
+  action: BLOCK
+  tellSender: true
+  message: "Links need a word with staff first."
+  strikes: 0
+  alertStaff: true
+  # Also catch IP addresses (and their :port).
+  ips: true
+  # Also catch 'example dot com', 'example(.)com' and friends.
+  spelledDots: true
+  # Endings that make 'word.ending' a link. Endings that are also everyday words (.me .to .it .in
+  # .no .at .be .us) are left out, because 'did it.no' is a missing space - add any your players do post.
+  tlds: [com, net, org, io, gg, co, uk, de, tv, xyz, info, biz, ru, fr, eu, nl, ca, au, ly, dev,
+    app, club, online, site, store, fun, pro, top, link, live, shop, space, world, cc, ws, su, pl,
+    br, jp, cn, ch, fi, dk, nz, ie, lol, host, network, games, sex, porn, xxx]
+  # Domains anybody may post, with their subdomains: put your own website here.
+  allowedDomains: [minecraft.net, minecraft.wiki]
+
+# SHOUTING. REPLACE lowercases the line.
+caps:
+  enabled: true
+  action: REPLACE
+  tellSender: false
+  message: ""
+  strikes: 0
+  alertStaff: false
+  # Lines with fewer letters are never shouting: 'GG', 'OK', 'LOL'.
+  minLetters: 8
+  # Share of capital letters, out of all letters, above which a line is shouting.
+  maxPercent: 70
+
+# Saying the same thing again. MASK and REPLACE mean nothing here and act as LOG.
+repeat:
+  enabled: true
+  action: BLOCK
+  tellSender: true
+  message: "You said that already. Everyone heard."
+  strikes: 0
+  alertStaff: false
+  # A message the same as your last one within this long is a repeat. 0 turns it off.
+  seconds: 30
+
+# Too many messages too fast. MASK and REPLACE mean nothing here and act as LOG.
+flood:
+  enabled: true
+  action: BLOCK
+  tellSender: true
+  message: "Slow down. Chat will still be here in a moment."
+  strikes: 0
+  alertStaff: true
+  # More than this many messages ...
+  messages: 5
+  # ... within this many seconds is a flood. 0 turns it off.
+  seconds: 4
+
+# Escalation for repeat offenders. Strikes expire one at a time, so an occasional slip never adds up.
+strikes:
+  enabled: true
+  # How long one strike lasts.
+  decayMinutes: 30
+  # What happens on reaching a number of strikes - each fires once, on the way up.
+  #   N = alert              tell staff with alerts on
+  #   N = tell <message>     tell the player
+  #   N = command <command>  run a command as the console. {player} and {strikes} are filled in.
+  # Examples: "5 = command mute {player} 10m Language" (with a mute plugin),
+  #           "8 = command kick {player} Mind your language"
+  ladder:
+    - "3 = alert"
+
+# Who hears about a caught message.
+alerts:
+  # Log caught messages to the console - the old 'showInConsole'.
+  console: true
+  # Tell online staff with chatfilter.alerts (each can turn it off with /chatfilter alerts off).
+  staff: true
+
+# Chat that arrives as a command - the old plugin's best-loved feature.
+commands:
+  enabled: true
+  # Commands to filter, without the slash. An entry can be several words ('f chat'). A * stands for
+  # a word to skip - 'msg *' filters '/msg Steve hello' as 'hello', never the name, so a player
+  # called Assassin can still be messaged. With no *, everything after the entry is filtered.
+  list:
+    - "msg *"
+    - "tell *"
+    - "w *"
+    - "whisper *"
+    - "pm *"
+    - "m *"
+    - "t *"
+    - "r"
+    - "reply"
+    - "me"
+    - "say"
+    - "mail send *"
+    - "f chat"
+    - "faction chat"
+    - "party chat"
+    - "p chat"
+
+# Automatic replies to keywords. 'trigger|other trigger = reply'. Whole words only.
+responses:
+  enabled: true
+  # Seconds before the same reply can fire again.
+  cooldownSeconds: 30
+  # Ticks to wait before replying (20 = one second), so the reply lands after the line it answers.
+  delayTicks: 10
+  # Empty the list to have none. It stays empty.
+  rules:
+    - "eleven|11 = That's ridiculous, it's not even funny."
+
+# Wording. & colour codes work (&#rrggbb on 1.16+). Blank says nothing.
+messages:
+  # Put before everything ChatFilter tells a player.
+  prefix: "&9[ChatFilter] &f"
+  # To a player without chatfilter.chat.
+  noChat: "I'm sorry {player}, I can't let you do that."
+  # To staff. {player} {channel} {category} {term} {message}.
+  alert: "&8[&cCF&8] &7{player} &8({channel}, {category}: {term})&7: &f{message}"
+  # To staff, from the strike ladder. {player} {strikes}.
+  strikeAlert: "&8[&cCF&8] &7{player} &fhas {strikes} strikes."

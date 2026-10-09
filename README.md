@@ -1,56 +1,65 @@
-Chat Filter
-===========
+# ChatFilter
 
-A Basic profanity filter - and message when people mention trigger keywords.
+A chat filter for Bukkit, Spigot and Paper servers, **1.7.2 to 26.3**. It censors or stops swearing
+in chat and in `/msg`-style commands, sees through the usual disguises, blocks links and spam, and
+needs nothing on the client.
 
-### Config
+Version 3 is a rebuild of the 2012 plugin, sharing its filtering engine with the NeoForge mod
+[ChatFilter ReForged](https://github.com/Sablednah/ChatFilter-ReForged). The 2.x plugin is on the
+`master` branch.
 
-kick: [true|false] Set to true to kick players who swear.
+## What it does
 
-showInConsole: [true|false] Show player's name and the offending message in console.
+- **Masks swearing silently.** Other players see a caught word as `####`; the sender sees what they
+  typed and is told nothing. Staff with `chatfilter.see` read the original.
+- **Or replaces, shadows, blocks or just logs, per category.** `REPLACE` rewrites the word (the old
+  `!@$#`), `SHADOW` is a soft-mute (the sender sees their line sent, nobody else sees it), `BLOCK`
+  stops it, with *"Oi Steve! Mind your language!"* if you want it.
+- **Sees through disguises:** leetspeak (`sh1t`, `$h!t`), stretched letters (`fuuuck`), spelled-out
+  letters (`f.u.c.k`, `s h i t`), self-censoring (`f*ck`), accents, look-alike letters from other
+  alphabets, zero-width characters and colour codes hidden mid-word.
+- **Leaves innocent words alone:** whole-word lists (`ass` catches neither *class* nor *grass*) and
+  an allowlist for the Scunthorpe problem.
+- **Filters chat that arrives as a command:** `/msg`, `/tell`, `/w`, `/r`, `/me`, `/say`,
+  `/mail send`, `/f chat` and any you add. `msg *` skips the name, so `/msg Assassin hi` works.
+- **Links and IP addresses** (with an allowlist for your own site), **shouting**, **repeats** and
+  **floods**.
+- **Strikes** that expire one at a time, and a ladder that can alert staff, warn, or run any command.
+- **Staff alerts**, the console log, `/chatfilter test`, and in-game list editing.
+- **Keyword replies.** It still answers "eleven", and you can switch that off for good.
 
-censor: [true|false] Censor messages instead of blocking entire message.
+## Upgrading from 2.x
 
-agressiveMatching: [true|false]  Attempts to match more words by looking for 3=e 0=o etc.
+Drop the new jar in place of the old one. On first start your `config.yml` and `lang.yml` are
+carried over into the new `config.yml` and kept as `config-2.x.yml.bak` / `lang-2.x.yml.bak`. Your
+old behaviour is kept: if you blocked swearing, it still blocks. Set `profanity.action: MASK` for
+the silent mode. The old permission nodes (`chatfilter.canswear`, `canchat`, `reload`) still work.
 
-Edit lang.yml (created on first run) to change the trigger words and notification text. 
+## Which jar
 
-### Commands
+| Server | Jar |
+|---|---|
+| 1.13 – 26.3 (Spigot, Paper) | `chatfilter-3.0.0+bukkit1.13-26.3.jar` |
+| 1.7.2 – 1.12.2 | `chatfilter-3.0.0+bukkit1.7-1.12.jar` |
 
-    /charfilter reload
-Reload config and lang files.
+## Commands and permissions
 
-### Permissions
+| Command | Permission (default) | Does |
+|---|---|---|
+| `/chatfilter reload` | `chatfilter.admin` (op) | re-read config.yml, report mistakes |
+| `/chatfilter test <text>` | `chatfilter.admin` (op) | what would be caught, by what, and the result |
+| `/chatfilter add\|remove <list> <entry>` | `chatfilter.admin` (op) | edit a list; saved to config.yml |
+| `/chatfilter list <list>` | `chatfilter.admin` (op) | show a list |
+| `/chatfilter strikes <player> [clear]` | `chatfilter.admin` (op) | see or clear strikes |
+| `/chatfilter alerts [on\|off\|toggle]` | `chatfilter.alerts` (op) | your own staff alerts |
 
-    chatfilter.canswear
-Users with this node are not censored.
+| Permission | Default | Means |
+|---|---|---|
+| `chatfilter.chat` | everyone | may chat at all |
+| `chatfilter.bypass` | nobody | not filtered, ops included |
+| `chatfilter.see` | nobody | sees masked words as written |
+| `chatfilter.links` | nobody | may post links |
 
-    chatfilter.reload
-Users with this node can reload config.
+## Licence
 
-    chatfilter.canchat
-Users with this node can chat.
-
-### Changelog
-2.0.0:  Added command filtering (for /msg /r etc).  Removed debug messages.
-
-1.7.2:  Changed permissions node for chat to chatfilter.canchat
-
-1.7.1:  Fixed config typo
-
-1.7.0:  Aggressive matching option.  Permissions node to block chat completely. 
-
-1.6.0:  Permissions node for reload.  Colour support.
-
-1.5.0:  Permissions node to allow select users to swear.
-
-1.4:  Optional censorship mode.  Replaced words with configurable text.
-
-1.3:  Config options to match whole words.
-
-1.2:  Option to show offending messages in console.
-
-1.1:  Added kick option.
-
-1.0:  First release.
-
+MIT.

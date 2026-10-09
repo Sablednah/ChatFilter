@@ -1,0 +1,6 @@
+rootProject.name = 'chatfilter'
+
+// One plugin body compiled against the oldest API it runs on; see build.gradle for why there are
+// no compat adapters (MobHealth's Bukkit repo, which this follows, has five).
+include 'core'          // loader-agnostic logic, mirrored verbatim from ChatFilter-ReForged
+include 'bukkit'        // the plugin, compiled against Bukkit 1.7.2-R0.3

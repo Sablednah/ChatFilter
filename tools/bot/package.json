@@ -1,0 +1,8 @@
+{
+  "name": "chatfilter-bot",
+  "private": true,
+  "description": "Three-player chat test for the ChatFilter Bukkit test servers",
+  "dependencies": {
+    "mineflayer": "^4.39.0"
+  }
+}
